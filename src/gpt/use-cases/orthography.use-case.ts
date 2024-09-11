@@ -4,7 +4,7 @@ interface Options {
     prompt: string;
 }
 
-export const orthographyCaseUseCase = async (openai: OpenAI, options: Options) => {
+export const orthographyUseCase = async (openai: OpenAI, options: Options) => {
     const { prompt } = options;
 
     const completion = await openai.chat.completions.create({
