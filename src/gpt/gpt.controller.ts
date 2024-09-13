@@ -8,6 +8,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuid } from 'uuid';
 import { AudioToTextDto } from './dtos/audio-to-text.dto';
+import { ImageGenerationDto } from './dtos/image-generation.dto';
 
 @Controller('gpt')
 export class GptController {
@@ -74,6 +75,14 @@ export class GptController {
     ) file: Express.Multer.File,
     @Body() audioToTextDto: AudioToTextDto,
   ) {
-    return this.gptService.audioToText(file,audioToTextDto);
+    return this.gptService.audioToText(file, audioToTextDto);
+  }
+
+  @Post('image-generation')
+  async imageGeneration(
+    @Body() imageGenerationDto: ImageGenerationDto,
+  ) {
+    return this.gptService.imageGeneration(imageGenerationDto);
+
   }
 }

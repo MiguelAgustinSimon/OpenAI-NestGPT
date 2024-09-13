@@ -10,6 +10,8 @@ import { textToAudioUseCase } from './use-cases/text-to-audio.use-case';
 import { TextToAudioDto } from './dtos/text-to-audio.dto';
 import { audioToTextUseCase } from "./use-cases/audio-to-text.use-case";
 import { AudioToTextDto } from "./dtos/audio-to-text.dto";
+import { ImageGenerationDto } from "./dtos/image-generation.dto";
+import { imageGenerationUseCase } from "./use-cases/image-generation.use-case";
 
 
 @Injectable()
@@ -45,7 +47,12 @@ export class GptService {
         return filePath;
     }
 
-    async audioToText(audioFile: Express.Multer.File, {prompt}:AudioToTextDto) {
+    async audioToText(audioFile: Express.Multer.File, { prompt }: AudioToTextDto) {
         return await audioToTextUseCase(this.openai, { prompt, audioFile });
     }
+
+    async imageGeneration(imageGenerationDto: ImageGenerationDto) {
+        return await imageGenerationUseCase(this.openai, { ...imageGenerationDto });
+    }
+
 }
