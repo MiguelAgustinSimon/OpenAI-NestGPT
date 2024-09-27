@@ -12,6 +12,8 @@ import { audioToTextUseCase } from "./use-cases/audio-to-text.use-case";
 import { AudioToTextDto } from "./dtos/audio-to-text.dto";
 import { ImageGenerationDto } from "./dtos/image-generation.dto";
 import { imageGenerationUseCase } from "./use-cases/image-generation.use-case";
+import { imageVariationUseCase } from "./use-cases/image-variation.use-case";
+import { ImageVariationDto } from "./dtos/image-variation.dto";
 
 
 @Injectable()
@@ -55,4 +57,18 @@ export class GptService {
         return await imageGenerationUseCase(this.openai, { ...imageGenerationDto });
     }
 
+
+    async getGeneratedImage(filename: string) {
+        const filePath = path.resolve(__dirname, '../../generated/images/', `${filename}.png`);
+        //const filePath = path.resolve('./', './generated/images/', filename);
+        if (!fs.existsSync(filePath)) {
+            throw new NotFoundException(`File ${filename} not found.`);
+        }
+        return filePath;
+    }
+
+
+    async geneateImageVariation({ baseImage }: ImageVariationDto) {
+        return await imageVariationUseCase(this.openai, { baseImage });
+    }
 }

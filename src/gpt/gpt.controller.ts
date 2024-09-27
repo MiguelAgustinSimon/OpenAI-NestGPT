@@ -9,6 +9,7 @@ import { diskStorage } from 'multer';
 import { v4 as uuid } from 'uuid';
 import { AudioToTextDto } from './dtos/audio-to-text.dto';
 import { ImageGenerationDto } from './dtos/image-generation.dto';
+import { ImageVariationDto } from './dtos/image-variation.dto';
 
 @Controller('gpt')
 export class GptController {
@@ -83,6 +84,23 @@ export class GptController {
     @Body() imageGenerationDto: ImageGenerationDto,
   ) {
     return this.gptService.imageGeneration(imageGenerationDto);
+  }
 
+
+  @Get('image-generation/:filename')
+  async getGeneratedImage(
+    @Res() res: Response,
+    @Param('filename') filename: string,
+  ) {
+    const filePath = await this.gptService.getGeneratedImage(filename);
+    res.status(HttpStatus.OK);
+    res.sendFile(filePath);
+  }
+
+  @Post('image-variation')
+  async imageVariation(
+    @Body() imageVariationDto: ImageVariationDto,
+  ) {
+    return this.gptService.geneateImageVariation(imageVariationDto);
   }
 }
